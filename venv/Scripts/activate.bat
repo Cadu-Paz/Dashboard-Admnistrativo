@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\kdupa\Desktop\DASHBOARD ADMINISTRATIVO\venv
+set VIRTUAL_ENV=C:\Users\kdupa\OneDrive\Área de Trabalho\DASHBOARD ADMINISTRATIVO\venv
 
 if not defined PROMPT set PROMPT=$P$G
 
