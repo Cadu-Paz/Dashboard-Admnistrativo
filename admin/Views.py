@@ -19,11 +19,7 @@ class HomeView(AdminIndexView):
     def  is_accessible(self):
         return True
     
-    # def inaccessible_callback(self, name, **kwargs):
-    #     if current_user.is_authenticated:
-    #         return redirect('/admin')
-    #     else:
-    #         return redirect('/login')
+    
     
 class UserView(ModelView):
     def on_model_change(self, form, User, is_created):
@@ -35,16 +31,16 @@ class UserView(ModelView):
 
     def is_accessible(self):
         return True
-    pass
+    
 
 class GenericView(ModelView):
     def is_accessible(self):
         return True
-
-    # def inaccessible_callback(self,name,**kwargs):
+    
+    # def inaccessible_callback(self, name, **kwargs):
     #     if current_user.is_authenticated:
     #         return redirect('/admin')
     #     else:
     #         return redirect('/login')
-    
-    
+
+

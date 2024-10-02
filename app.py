@@ -17,15 +17,15 @@ def create_app(config):
 
     app.config['FLASK_ADMIN_SWATCH'] = 'paper'  # Admin
 
-    # Inicializa o banco de dados com a app
-    db.init_app(app)
-
     # Chama a função para iniciar as views do admin
     start_views(app, db)  # Admin
     Bootstrap(app)  # Admin
 
     # Adiciona as configurações após a inicialização
     config.APP = app
+
+    # Inicializa o banco de dados com a app
+    db.init_app(app)
 
     @app.after_request
     def after_request(response):
@@ -39,4 +39,3 @@ def create_app(config):
         return 'oi'
 
     return app  # Retorna a instância da aplicação
-
