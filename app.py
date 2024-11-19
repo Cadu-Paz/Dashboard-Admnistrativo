@@ -1,12 +1,13 @@
-from flask import Flask
+from flask import Flask, request, Response
 from flask_migrate import Migrate
-from flask_bootstrap import Bootstrap  # Corrigido: use o Bootstrap do flask_bootstrap
+from flask_bootstrap import Bootstrap  
 from flask_sqlalchemy import SQLAlchemy
+import json
 
-from admin.Admin import start_views  # Certifique-se de que este caminho está correto
+from admin.Admin import start_views  
 
 # Inicializa o banco de dados e o Migrate
-db = SQLAlchemy()  # Corrigido: inicializa o objeto db
+db = SQLAlchemy()  
 migrate = Migrate()
 
 def create_app(config):
@@ -15,17 +16,17 @@ def create_app(config):
     # Configurações da aplicação
     app.secret_key = config.SECRET
     app.config.from_object(config)
-
+    app.config.from_pyfile('config.py')
     # Configura o URI do banco de dados
     app.config['SQLALCHEMY_DATABASE_URI'] = config.SQLALCHEMY_DATABASE_URI
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['FLASK_ADMIN_SWATCH'] = 'paper'
 
     # Inicializa o banco de dados e outras extensões
-    db.init_app(app)  # Corrigido: inicializar o banco de dados com a app
+    db.init_app(app)  
     migrate.init_app(app, db)  # Inicializa o Migrate com a app e o db
     start_views(app, db)  # Registra as views
-    Bootstrap(app)  # Corrigido: inicializa o Bootstrap
+    Bootstrap(app) 
 
     @app.after_request
     def after_request(response):
@@ -34,8 +35,11 @@ def create_app(config):
         response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
         return response
 
-    @app.route('/')
-    def index():
-        return 'Faculdade Impacta -- dashboard administrativo ADS 5A manhã.'
-
+    @app.route('/report', methods=['POST'])
+    def report():
+        state = request.form['state']
+        disease = request.form['disease']
+        
+        patients = ctrl.reportByState(state, disease)
+        return Response(json.dumps({}, ensure_ascii=False), mimetype='application/json'), 200, {}
     return app
